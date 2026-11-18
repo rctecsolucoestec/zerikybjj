@@ -135,36 +135,145 @@
     });
   }
 
-  // Caminho das faixas
-  var FAIXAS = [
-    { id: 'branca', nome: 'Branca', cor: '#EDEDED', borda: '#EDEDED', ponteira: '#111111', foco: 'Fundamentos', texto: 'Postura, quedas seguras, fugas e como se proteger por baixo. A fase de aprender a aprender.' },
-    { id: 'azul', nome: 'Azul', cor: '#1F4FBF', borda: '#1F4FBF', ponteira: '#111111', foco: 'Base técnica', texto: 'Guardas, passagens, raspagens e as primeiras finalizações. O repertório começa a crescer.' },
-    { id: 'roxa', nome: 'Roxa', cor: '#6B2FA3', borda: '#6B2FA3', ponteira: '#111111', foco: 'Conexão', texto: 'Ligar uma posição na outra e construir um jogo próprio. Muitos começam a ajudar os mais novos.' },
-    { id: 'marrom', nome: 'Marrom', cor: '#6B3E1F', borda: '#6B3E1F', ponteira: '#111111', foco: 'Refinamento', texto: 'Detalhe, tempo e estratégia. Menos força, mais precisão.' },
-    { id: 'preta', nome: 'Preta', cor: '#111111', borda: '#4A4A4A', ponteira: 'var(--accent)', foco: 'Responsabilidade', texto: 'Domínio técnico e o compromisso de ensinar. E a certeza de que o aprendizado nunca termina.' }
-  ];
+  // Caminho das faixas — Sistema Geral de Graduação IBJJF/CBJJ (jun/2026)
+  var COR = {
+    branca: '#EDEDED', cinza: '#8C8C8C', amarela: '#F2C318', laranja: '#F07C1A', verde: '#2E8B3E',
+    azul: '#1F4FBF', roxa: '#6B2FA3', marrom: '#6B3E1F', preta: '#111111', vermelha: '#C8102E'
+  };
+
+  function lisa(cor, extra) {
+    return Object.assign({ bg: cor, tip: '#111111', edge: 'transparent', border: cor }, extra || {});
+  }
+  function listrada(cor, listra) {
+    return lisa(cor, { bg: 'linear-gradient(to bottom, ' + cor + ' 0 36%, ' + listra + ' 36% 64%, ' + cor + ' 64%)' });
+  }
+  function gomos(a, b) {
+    return 'repeating-linear-gradient(90deg, ' + a + ' 0 22px, ' + b + ' 22px 44px)';
+  }
+
+  var SISTEMAS = {
+    adulto: {
+      nota: 'Os tempos são de permanência mínima em cada faixa. O momento de graduar é decisão do professor, e o sistema de graus até a marrom fica a critério dele. *Faixa preta aos 18 anos apenas para campeões mundiais adultos na faixa marrom.',
+      faixas: [
+        { id: 'branca', nome: 'Branca', bar: lisa(COR.branca), foco: 'Fundamentos',
+          fatos: [['Idade mínima', 'Qualquer idade'], ['Permanência mínima', 'Não há'], ['Graus', 'Lisa + 4 graus']],
+          texto: 'Postura, quedas seguras, fugas e como se proteger por baixo. A fase de aprender a aprender.' },
+        { id: 'azul', nome: 'Azul', bar: lisa(COR.azul), foco: 'Base técnica',
+          fatos: [['Idade mínima', '16 anos'], ['Permanência mínima', '2 anos'], ['Graus', 'Lisa + 4 graus']],
+          texto: 'Guardas, passagens, raspagens e as primeiras finalizações. O repertório começa a crescer.' },
+        { id: 'roxa', nome: 'Roxa', bar: lisa(COR.roxa), foco: 'Conexão',
+          fatos: [['Idade mínima', '16 anos'], ['Permanência mínima', '1 ano e meio'], ['Graus', 'Lisa + 4 graus']],
+          texto: 'Ligar uma posição na outra e construir um jogo próprio. Muitos começam a ajudar os mais novos.' },
+        { id: 'marrom', nome: 'Marrom', bar: lisa(COR.marrom), foco: 'Refinamento',
+          fatos: [['Idade mínima', '18 anos'], ['Permanência mínima', '1 ano'], ['Graus', 'Lisa + 4 graus']],
+          texto: 'Detalhe, tempo e estratégia. Menos força, mais precisão.' },
+        { id: 'preta', nome: 'Preta', bar: lisa(COR.preta, { tip: COR.vermelha, edge: '#FFFFFF', border: '#4A4A4A' }), foco: 'Responsabilidade',
+          fatos: [['Idade mínima', '18 anos*'], ['Permanência', '31 anos até a vermelha e preta'], ['Graus', 'Lisa + 6 graus']],
+          texto: 'Domínio técnico e o compromisso de ensinar. Os graus vêm com anos de atividade comprovada: o 1º grau, por exemplo, depois de 3 anos na faixa preta.' },
+        { id: 'vermelha-preta', nome: 'Vermelha e preta', bar: lisa(COR.vermelha, { bg: gomos(COR.vermelha, COR.preta), tip: '#FFFFFF', edge: '#C0C0C0' }), foco: 'Mestre · 7º grau',
+          fatos: [['Idade mínima', '49 anos'], ['Permanência', '7 anos'], ['Grau', '7º grau da faixa preta']],
+          texto: 'A faixa de Mestre. Reconhece uma vida inteira dedicada ao jiu-jitsu.' },
+        { id: 'vermelha-branca', nome: 'Vermelha e branca', bar: lisa(COR.vermelha, { bg: gomos(COR.vermelha, '#F5F5F5'), tip: '#FFFFFF', edge: '#C0C0C0' }), foco: 'Mestre · 8º grau',
+          fatos: [['Idade mínima', '56 anos'], ['Permanência', '10 anos'], ['Grau', '8º grau da faixa preta']],
+          texto: 'Faixa de Mestre, segundo nível. Poucos chegam até aqui.' },
+        { id: 'vermelha', nome: 'Vermelha', bar: lisa(COR.vermelha, { tip: '#FFFFFF', edge: '#D4AF37' }), foco: 'Grande Mestre · 9º e 10º graus',
+          fatos: [['Idade mínima', '66 anos'], ['Permanência', 'Indefinida'], ['Graus', '9º e 10º graus da faixa preta']],
+          texto: 'A faixa de Grande Mestre. O 10º grau foi concedido apenas aos irmãos Gracie, pioneiros do jiu-jitsu brasileiro.' }
+      ]
+    },
+    kids: {
+      nota: 'Até os 15 anos não há tempo mínimo em cada faixa, e o sistema de graus fica a critério do professor. No ano em que completa 16 anos, o aluno passa para o sistema adulto: a branca continua branca; cinza, amarela e laranja viram azul; a verde vira azul ou roxa, a critério do professor.',
+      faixas: [
+        { id: 'k-branca', nome: 'Branca', bar: lisa(COR.branca), foco: 'Primeiros passos',
+          variantes: [['Branca', lisa(COR.branca)]],
+          fatos: [['Idade', 'Qualquer idade'], ['Permanência mínima', 'Não há']],
+          texto: 'O começo de tudo: regras do tatame, rolamentos, quedas seguras e brincadeiras que ensinam os movimentos básicos.' },
+        { id: 'cinza', nome: 'Grupo Cinza', bar: lisa(COR.cinza), foco: 'Coordenação e confiança',
+          variantes: [['Cinza e branca', listrada(COR.cinza, '#F5F5F5')], ['Cinza', lisa(COR.cinza)], ['Cinza e preta', listrada(COR.cinza, '#111111')]],
+          fatos: [['Idade', '4 a 15 anos'], ['Permanência mínima', 'Não há']],
+          texto: 'Postura, base e as primeiras posições, sempre com brincadeira. A criança aprende a respeitar o colega e a seguir regras.' },
+        { id: 'amarela', nome: 'Grupo Amarelo', bar: lisa(COR.amarela), foco: 'Repertório',
+          variantes: [['Amarela e branca', listrada(COR.amarela, '#F5F5F5')], ['Amarela', lisa(COR.amarela)], ['Amarela e preta', listrada(COR.amarela, '#111111')]],
+          fatos: [['Idade', '7 a 15 anos'], ['Permanência mínima', 'Não há']],
+          texto: 'Mais quedas, guardas e imobilizações. Começa a entender como uma posição leva à outra.' },
+        { id: 'laranja', nome: 'Grupo Laranja', bar: lisa(COR.laranja), foco: 'Estratégia',
+          variantes: [['Laranja e branca', listrada(COR.laranja, '#F5F5F5')], ['Laranja', lisa(COR.laranja)], ['Laranja e preta', listrada(COR.laranja, '#111111')]],
+          fatos: [['Idade', '10 a 15 anos'], ['Permanência mínima', 'Não há']],
+          texto: 'Raspagens, passagens e finalizações básicas, com mais autonomia e disciplina nos treinos.' },
+        { id: 'verde', nome: 'Grupo Verde', bar: lisa(COR.verde), foco: 'Rumo ao adulto',
+          variantes: [['Verde e branca', listrada(COR.verde, '#F5F5F5')], ['Verde', lisa(COR.verde)], ['Verde e preta', listrada(COR.verde, '#111111')]],
+          fatos: [['Idade', '13 a 15 anos'], ['Permanência mínima', 'Não há']],
+          texto: 'Jogo mais completo e maduro. É a última etapa antes do sistema adulto.' }
+      ]
+    }
+  };
+
+  function barStyle(b) {
+    return '--belt-bg:' + b.bg + ';--belt-border:' + b.border + ';--tip:' + b.tip + ';--tip-edge:' + b.edge;
+  }
+  function barHtml(b) {
+    return '<span class="belt__bar" aria-hidden="true" style="' + barStyle(b) + '"></span>';
+  }
 
   var belts = document.getElementById('belts');
+  var sistemaAtual = 'kids';
 
   function selecionaFaixa(id) {
-    var f = FAIXAS.find(function (x) { return x.id === id; }) || FAIXAS[0];
+    var lista = SISTEMAS[sistemaAtual].faixas;
+    var f = lista.find(function (x) { return x.id === id; }) || lista[0];
     setPressed(belts, f.id);
-    document.getElementById('belt-name').textContent = 'Faixa ' + f.nome;
-    document.getElementById('belt-focus').textContent = 'Foco: ' + f.foco;
+    document.getElementById('belt-name').textContent = (sistemaAtual === 'kids' && f.id !== 'k-branca') ? f.nome : 'Faixa ' + f.nome;
+    document.getElementById('belt-focus').textContent = f.foco;
     document.getElementById('belt-text').textContent = f.texto;
+    document.getElementById('belt-facts').innerHTML = f.fatos.map(function (x) {
+      return '<div><dt>' + x[0] + '</dt><dd>' + x[1] + '</dd></div>';
+    }).join('');
+    var variantes = document.getElementById('belt-variants');
+    if (f.variantes && f.variantes.length > 1) {
+      variantes.innerHTML = f.variantes.map(function (v) {
+        return '<div class="belt-variant">' + barHtml(v[1]) + '<span>' + v[0] + '</span></div>';
+      }).join('');
+      variantes.hidden = false;
+    } else {
+      variantes.innerHTML = '';
+      variantes.hidden = true;
+    }
+  }
+
+  function renderSistema(sistema) {
+    sistemaAtual = sistema;
+    var cfg = SISTEMAS[sistema];
+    belts.className = 'belts belts--' + sistema;
+    belts.innerHTML = cfg.faixas.map(function (f) {
+      return '<button type="button" class="belt" data-value="' + f.id + '" aria-pressed="false">' +
+        barHtml(f.bar) + '<span class="belt__name">' + f.nome + '</span></button>';
+    }).join('');
+    document.getElementById('belt-note').textContent = cfg.nota;
+    document.querySelectorAll('[data-sistema]').forEach(function (t) {
+      var ativo = t.dataset.sistema === sistema;
+      t.setAttribute('aria-selected', String(ativo));
+      t.tabIndex = ativo ? 0 : -1;
+      if (ativo) document.getElementById('painel-faixas').setAttribute('aria-labelledby', t.id);
+    });
+    selecionaFaixa(cfg.faixas[0].id);
   }
 
   if (belts) {
-    belts.innerHTML = FAIXAS.map(function (f) {
-      return '<button type="button" class="belt" data-value="' + f.id + '" aria-pressed="false">' +
-        '<span class="belt__bar" aria-hidden="true" style="--belt:' + f.cor + ';--belt-border:' + f.borda + ';--tip:' + f.ponteira + '"></span>' +
-        '<span class="belt__name">' + f.nome + '</span></button>';
-    }).join('');
     belts.addEventListener('click', function (e) {
       var btn = e.target.closest('button');
       if (btn) selecionaFaixa(btn.dataset.value);
     });
-    selecionaFaixa('branca');
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-sistema]'));
+    tabs.forEach(function (t, idx) {
+      t.addEventListener('click', function () { renderSistema(t.dataset.sistema); });
+      t.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        var prox = tabs[(idx + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        prox.focus();
+        renderSistema(prox.dataset.sistema);
+      });
+    });
+    renderSistema('kids');
   }
 
   // FAQ: deixa só uma pergunta aberta por vez
