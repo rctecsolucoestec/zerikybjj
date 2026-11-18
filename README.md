@@ -18,7 +18,6 @@ assets/           logo e ícones
 - Endereço do polo Palhoça
 - Dias, horários e faixa etária das turmas (em `js/main.js`, lista `TURMAS`)
 - Idade mínima do Kids e se os pais podem assistir
-- Kimono na aula experimental
 - Tabela de planos
 - Trajetória, graduação e títulos do professor
 - Fotos reais e depoimentos
